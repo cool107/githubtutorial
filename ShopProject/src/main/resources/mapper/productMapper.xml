@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.scmaster.shopping.dao.ShopProductMapper">
+	<insert id="shop_product_insert" parameterType="Product">
+		insert into
+		    shop_product_tb(
+		        product_seq
+		        ,product_nm
+		        ,product_qty
+		        ,product_price
+		        ,product_comments
+		    )values(
+		        shop_product_seq.nextval
+		        ,#{product_nm}
+		        ,#{product_qty}
+		        ,#{product_price}
+		        ,#{product_comments}
+		    )
+	</insert>
+	
+	<select id="shop_product_select_list" resultType="Product">
+		select
+		    product_seq
+		    ,product_nm
+		    ,product_qty
+		    ,product_price
+		    ,product_comments
+		    ,product_indate
+		from
+		    shop_product_tb
+		order by
+		    product_seq desc
+	</select>
+	
+	<select id="shop_product_select_one" parameterType="int" resultType="Product">
+		select
+		    product_seq
+		    ,product_nm
+		    ,product_qty
+		    ,product_price
+		    ,product_comments
+		    ,product_indate
+		from
+		    shop_product_tb
+		where
+		    product_seq = #{product_seq}
+	</select>
+	
+	<update id="shop_product_update" parameterType="Product">
+		update
+		    shop_product_tb
+		set
+		    product_qty = #{product_qty}
+		    ,product_price = #{product_price}
+		    ,product_comments = #{product_comments}
+		where
+		    product_seq = #{product_seq}
+	</update>
+	
+	<delete id="shop_product_delete" parameterType="int">
+		delete
+		    from
+		shop_product_tb
+		where
+		    product_seq = #{product_seq}
+	</delete>
+	
+	<insert id="shop_product_buy" parameterType="hashmap">
+		insert into
+		    shop_sold_tb
+		    (
+		        sold_seq
+		        ,user_id
+		        ,product_seq
+		        ,sold_qty
+		    )values(
+		        shop_sold_seq.nextval
+		        ,#{user_id}
+		        ,#{product_seq}
+		        ,#{sold_qty}
+		    )
+	</insert>
+	
+	<update id="shop_product_update_qty" parameterType="hashmap">
+		update
+		    shop_product_tb
+		set
+		    product_qty = product_qty - #{sold_qty}
+		where
+		    product_seq = #{product_seq}
+	</update>
+	
+	
+	
+	
+	
+</mapper>
